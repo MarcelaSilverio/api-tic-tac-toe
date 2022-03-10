@@ -1,8 +1,11 @@
-from flask import Flask
+from src.server.instance import server
+from uuid import uuid4
+from random import choice
 
-app = Flask("Jogo Da Velha")
+app, api = server.app, server.api
 
-@app.route('', methods=['GET'])
+
+@app.route('/', methods=['GET'])
 def home(): # Acho que não vai ter
     pass
     #renderizar home com opções ->
@@ -11,10 +14,11 @@ def home(): # Acho que não vai ter
 
 @app.route("/game", methods=["POST"])
 def createGame():
-    
+    """ Create a new game """
+    first_symbol = choice(["X", "O"])
+    game_id = uuid4()
+
     return {"id": game_id, "firstPlayer": first_symbol}
-    #Gerar um id
-    #Definir o simbolo
 
 @app.route('/game/{id}', methods=['GET']) #talvez post tbm por conta do numero de jogadores
 def enterGame():
@@ -33,8 +37,7 @@ def leaveGame():
 @app.route("/game/{id}/movement", methods=["POST"])
 def movement():
     pass
+
+    # Analisar movimento
     # Turno Errado
     # Chegamos ao Fim -> Velha ou Empate
-
-
-app.run()
