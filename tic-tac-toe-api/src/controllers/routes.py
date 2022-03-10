@@ -49,7 +49,7 @@ def movement():
 
     for game in games:
         if id in game:           
-            body = request.get_json()  
+            body = request.get_json()
 
             if game[1] != body["player"]:
                 return {"msg": "Não é turno do jogador"}
@@ -57,13 +57,40 @@ def movement():
                 return {"msg": "Posição indisponível"}
             else:
                 game[2][body["tabuleiro"]["y"]-2][body["tabuleiro"]["x"]] = 1
+
+                winner = False
                 
                 if  game[1] == "X":
                     game[1] = "O"
                 else:
                     game[1] = "X"
-                
-                return {"código": "200"}
+
+                # Rows
+                if game[2][0][0] == 1 and game[2][0][1] == 1 and game[2][0][2] == 1:
+                    winner = True
+                if game[2][1][0] == 1 and game[2][1][1] == 1 and game[2][1][2] == 1:
+                    winner = True
+                if game[2][2][0] == 1 and game[2][2][1] == 1 and game[2][2][2] == 1:
+                    winner = True
+
+                # Columns
+                if game[2][0][0] == 1 and game[2][1][0] == 1 and game[2][2][0] == 1:
+                    winner = True
+                if game[2][0][1] == 1 and game[2][1][1] == 1 and game[2][2][1] == 1:
+                    winner = True
+                if game[2][0][2] == 1 and game[2][1][2] == 1 and game[2][2][2] == 1:
+                    winner = True
+
+                # Diagonals
+                if game[2][0][0] == 1 and game[2][1][1] == 1 and game[2][2][2] == 1:
+                    winner = True
+                if game[2][2][0] == 1 and game[2][1][1] == 1 and game[2][0][2] == 1:
+                    winner = True
+
+                if winner:
+                    return {"status": "Partida finalizada", "winner": body["player"]}
+                else:
+                    return {"código": "200"}
             
         
     return {"msg": "Partida não encontrada"}
