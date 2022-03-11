@@ -1,44 +1,45 @@
-from flask import request
 from src.server.instance import server
-from uuid import uuid4
-from random import choice
+import views
 
 app, api = server.app, server.api
-games = []
+
+app.add_url_rule('/game', view_func=views.create_game)
+app.add_url_rule('/game/<id>', view_func=views.update_game)
+app.add_url_rule('/game/<id>/movement', view_func=views.play)
 
 
-@app.route("/game", methods=["POST"])
-def createGame():
-    """ Create a new game """
+# @app.route("/game", methods=["POST"]) #criar arquivos de rota separado, criar classe -> board
+# def createGame():
+#     """ Create a new game """
 
-    global games
-    symbol = choice(["X", "O"])
-    new_id = True
+#     global games
+#     symbol = choice(["X", "O"])
+#     new_id = True
 
-    while new_id:
-        new_id = False
-        game_id = str(uuid4())
-        for game in games:
-            if game_id in game:
-                new_id = True
+#     while new_id:
+#         new_id = False
+#         game_id = str(uuid4())
+#         for game in games:
+#             if game_id in game:
+#                 new_id = True
 
-    games.append([game_id, symbol, [[0]*3]*3])
-    return {"id": game_id, "firstPlayer": symbol}
+#     games.append([game_id, symbol, [[0]*3]*3])
+#     return {"id": game_id, "firstPlayer": symbol} # deixar json 
 
 
-@app.route("/game/situation", methods=["GET"])
-def gameSituation(id=None):
-    """ Send the game situation """
+# @app.route("/game/situation", methods=["GET"])
+# def gameSituation(id=None):
+#     """ Send the game situation """
     
-    global games
-    id = request.args.get("id")
-    exist = False
+#     global games
+#     id = request.args.get("id")
+#     exist = False
 
-    for game in games:
-        if id in game:
-            return {"turno": game[1], "tabuleiro": game[2]}
+#     for game in games:
+#         if id in game:
+#             return {"turno": game[1], "tabuleiro": game[2]}
         
-    return {"msg": "Partida não encontrada"}
+#     return {"msg": "Partida não encontrada"}
 
 
 @app.route("/game/movement", methods=["POST"])
