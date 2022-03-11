@@ -1,23 +1,24 @@
-from board import *
-from exceptions import *
+from src.controllers.board import *
+from src.config.views import *
+from flask import request
 import json
 
 board_controller = BoardController()
 
-def create_game(request):
+def create_game():
 	board = board_controller.create_board()
 
 	return json({"id": board.id, "first_player": board.current_player})
 
-def play(request):
+def play():
 	try:
-		return json (board_controller.play(board_uuid=request.args.get("id"), player=request.args.get("player"),
+		return json (board_controller.play(id=request.args.get("id"), player=request.args.get("player"),
          position=request.args.get("position")))
 	except GameException as e:
 		return json(e.msg), e.status_code
 
-def get_board(request):
+def get_board():
     try:
-        return json(board_controller.get_board(board_uuid=request.args.get("id")))
+        return json(board_controller.get_board(id=request.args.get("id")))
     except GameException as e:
         return json(e.msg), e.status_code

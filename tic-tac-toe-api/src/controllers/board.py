@@ -1,6 +1,7 @@
+from src.config.views import *
+from src.config.exceptions import *
 from uuid import uuid4
 from random import choice
-from exceptions import *
 from enum import Enum
 
 class BoardController():
@@ -13,17 +14,17 @@ class BoardController():
 
 		return new_board
 
-	def play(self, board_uuid, player):
+	def play(self, id, player):
 		try:
-			return self.boards[board_uuid].play(player)
+			return self.boards[id].play(player)
 		except IndexError:
 			raise BoardNotFound()
 
-	def is_finished(self, board_uuid):
+	def is_finished(self, id):
 		pass
 
-	def get_board(self, board_uuid):
-		return self.boards[board_uuid].get_board()
+	def get_board(self, id):
+		return self.boards[id].get_board()
 
 class BoardStatus(str, Enum):
 	FINISHED = "finished"
