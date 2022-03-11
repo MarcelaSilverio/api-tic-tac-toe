@@ -36,7 +36,7 @@ class BoardStatus(str, Enum):
 
 class Board():
     def __init__(self):
-        self.id = uuid4()
+        self.id = str(uuid4())
         self.symbols = ["X", "O"]
         self.current_player =  choice(self.symbols)
         self.board = [[0]*3]*3
