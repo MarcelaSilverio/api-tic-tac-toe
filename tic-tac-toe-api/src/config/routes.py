@@ -3,7 +3,7 @@ from src.config.views import *
 
 app, api = server.app, server.api
 
-methods = ['GET']
+methods = ['GET', 'POST']
 
 app.add_url_rule('/game', view_func=create_game)
 app.add_url_rule('/game/status', view_func=get_board)

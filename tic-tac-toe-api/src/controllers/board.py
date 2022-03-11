@@ -5,26 +5,29 @@ from random import choice
 from enum import Enum
 
 class BoardController():
-	def __init__(self):
-		self.boards = {} #  {"uuid": "board_object"}
+    def __init__(self):
+        self.boards = {} #  {"id": "board_object"}
 
-	def create_board(self):
-		new_board = Board()
-		self.boards[new_board.uuid] = new_board
+    def create_board(self):
+        new_board = Board()
+        self.boards[new_board.id] = new_board
 
-		return new_board
+        return new_board
 
-	def play(self, id, player):
-		try:
-			return self.boards[id].play(player)
-		except IndexError:
-			raise BoardNotFound()
+    def play(self, id, player):
+        try:
+            return self.boards[id].play(player)
+        except KeyError:
+            raise BoardNotFound()
 
-	def is_finished(self, id):
-		pass
+    def is_finished(self, id):
+        pass
 
-	def get_board(self, id):
-		return self.boards[id].get_board()
+    def get_board(self, id):
+        try:
+            return self.boards[id].get_board()
+        except KeyError:
+            raise BoardNotFound()
 
 class BoardStatus(str, Enum):
 	FINISHED = "finished"
