@@ -36,34 +36,34 @@ class Board():
         self.id = str(uuid4())
         self.symbols = ["X", "O"]
         self.current_player =  choice(self.symbols)
-        self.board = [[0]*3]*3
+        self.board = [[None]*3]*3
         self.blanks = 9
         self.status = BoardStatus.RUNNING
 
     def play(self, player, position):
         if self.current_player != player:
             raise WrongTurn
-        elif self.board[abs(position["y"] - 2)][position["x"]] != 0:
+        elif self.board[abs(position["y"] - 2)][position["x"]] != None:
             raise InvalidPosition
         else:
-            self.board[position["y"] - 2][position["x"]] = self.current_player
+            self.board[abs(position["y"] - 2)][position["x"]] = self.current_player
             self.blanks -= 1
             
             # Rows and columns
             for count in range(3):
-                if self.board[0][count] == self.board[1][count] == self.board[2][count] != 0:
+                if self.board[0][count] == self.board[1][count] == self.board[2][count] != None:
                     self.status = BoardStatus.FINISHED
                     return {"msg": "Partida finalizada", "winner": self.current_player}
                 
-                elif self.board[count][0] == self.board[count][1] == self.board[count][2] != 0:
+                elif self.board[count][0] == self.board[count][1] == self.board[count][2] != None:
                     self.status = BoardStatus.FINISHED
                     return {"msg": "Partida finalizada", "winner": self.current_player}
 
             # Diagonal
-            if self.board[0][0] == self.board[1][1] == self.board[2][2] != 0:
+            if self.board[0][0] == self.board[1][1] == self.board[2][2] != None:
                     self.status = BoardStatus.FINISHED
                     return {"msg": "Partida finalizada", "winner": self.current_player}
-            elif self.board[0][2] == self.board[1][1] == self.board[2][0] != 0:
+            elif self.board[0][2] == self.board[1][1] == self.board[2][0] != None:
                     self.status = BoardStatus.FINISHED
                     return {"msg": "Partida finalizada", "winner": self.current_player}
             elif self.blanks == 0:
