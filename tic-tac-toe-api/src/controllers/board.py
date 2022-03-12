@@ -34,9 +34,8 @@ class BoardStatus(str, Enum):
 class Board():
     def __init__(self):
         self.id = str(uuid4())
-        self.symbols = ["X", "O"]
-        self.current_player =  choice(self.symbols)
-        self.board = [[None]*3]*3
+        self.current_player =  choice(["X", "O"])
+        self.board = [[None, None, None],[None, None, None],[None, None, None]]
         self.blanks = 9
         self.status = BoardStatus.RUNNING
 
@@ -70,7 +69,11 @@ class Board():
                     self.status = BoardStatus.FINISHED
                     return {"msg": "Partida finalizada", "winner": "Draw"}
             else:
-                self.current_player = (self.symbols.copy.remove(self.current_player))[0]
+                if self.current_player == 'X':
+                    self.current_player = 'O'
+                else:
+                    self.current_player = 'X'
+                    
                 return self.get_board()
             
 
