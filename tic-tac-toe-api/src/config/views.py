@@ -12,8 +12,8 @@ def create_game():
 def play():
 	body = request.get_json()
 	try:
-		return json (board_controller.play(id=body["id"], player=body["player"],
-         position=request.args.get("position")))
+		return json.dumps(board_controller.play(id=body["id"], player=body["player"],
+         position=body["position"]))
 	except GameException as e:
 		return json.dumps(e.msg), e.status_code
 
