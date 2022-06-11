@@ -1,5 +1,5 @@
-# TIC-TAC-TOE API - Marcela Prata SIlvério
-> API de jogo multiplayer de Jogo da Velha feita em FlasK Python
+# TIC-TAC-TOE API
+> API de jogo multiplayer de Jogo da Velha feita em Flask Python
 ![](header.png)
 
 ## Instalação
